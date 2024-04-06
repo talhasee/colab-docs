@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import TextEditor from './components/TextEditor/TextEditor';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
@@ -26,9 +26,10 @@ function App() {
     };
 
     checkLoginStatus();
- }, []);
+    
+ }, [accessToken, refreshToken]);
 
- console.log(`IS logged in - ${isLoggedIn}`);
+//  console.log(`IS logged in - ${isLoggedIn}`);
 
  return (
     <Router>

@@ -38,9 +38,10 @@ function TextEditor() {
 
     useEffect(() => {
       if (!accessToken || !refreshToken) {
-        navigate('/login');
-      }
-    }, []);
+          navigate('/login');
+        }
+        // eslint-disable-next-line
+    }, [accessToken, refreshToken]);
   
 
     // console.log(`DocumentID - ${documentId}`);
@@ -52,17 +53,6 @@ function TextEditor() {
             s.disconnect();
         }
     }, []);
-
-    // // Inside useEffect for socket connection
-    // useEffect(() => {
-    //     if (!socket) return;
-
-    //     socket.on('active-users', users => {
-    //         setActiveUsers(users);
-    //     });
-
-    // }, [socket]);
-
 
     useEffect(() => {
         if (!socket || !quill) return;
@@ -114,7 +104,12 @@ function TextEditor() {
                 // Return the existing array if the user already exists
                 return prevUsers;
             });
+            
+            if(socket.id === userId){
+                console.log(`MY COLOR IS - ${color}`);
+            }
         };
+
       
         socket.on('cursor-update', cursorUpdateHandler);
       
@@ -122,7 +117,6 @@ function TextEditor() {
           socket.off('cursor-update', cursorUpdateHandler);
         };
     }, [socket, quill]);
-
 
     useEffect(() => {
         if(!socket || !quill)
@@ -252,7 +246,12 @@ function TextEditor() {
         }
     };
     
-    console.log(`ACTIVE USERS - ${activeUsers}`);
+    // console.log(`ACTIVE USERS - ${activeUsers}`);
+    console.log('ACTIVE USERS:');
+    activeUsers.forEach((user, index) => {
+        console.log(`User ${index + 1} - UserID: ${user.userId}, Color: ${user.color}`);
+    });
+
 
     return (
       <>

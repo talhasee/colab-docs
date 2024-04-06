@@ -12,6 +12,7 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
+      // eslint-disable-next-line
       const response = await axios.post('http://localhost:3001/api/user/register', { email, password }, { withCredentials: true });
       // console.log(response.data.data); 
       navigate('/login');

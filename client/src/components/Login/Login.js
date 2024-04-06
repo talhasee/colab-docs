@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { v4 as uuidV4 } from 'uuid';
 import Cookies from 'js-cookie';
 import "../../styles/styles.css";

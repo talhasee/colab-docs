@@ -99,8 +99,6 @@ io.on('connection', socket => {
 
             const removedCursor = cursorPositions[documentId][socket.id]; // Store the cursor position and color before deleting
 
-            // delete cursorPositions[documentId][socket.id]; //remove that cursor and now send that info to frontend
-
             io.to(documentId).emit('cursor-removed', { 
                 userId: socket.id,
                 range: removedCursor?.range,
