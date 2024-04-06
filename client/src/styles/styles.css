@@ -1,0 +1,213 @@
+*::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #F3F3F3;
+    margin: 0;
+}
+
+.container .ql-editor {
+    width: 8.5in;
+    min-height: 11in;
+    padding: 1in;
+    margin: 1rem;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, .5);
+    background-color: white;
+}
+
+.container .ql-container.ql-snow {
+    border: none;
+    display: flex;
+    justify-content: center;
+}
+
+.container .ql-toolbar.ql-snow{
+    display: flex;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #F3F3F3;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, .5);
+}
+
+@page {
+    margin: 1in;
+}
+
+@media print {
+    body {
+        background: none;
+    }
+
+    .container .ql-editor {
+        width: 6.5in;
+        height: 9in;
+        padding: 0;
+        margin: 0;
+        box-shadow: none;
+        align-self: flex-start;
+    }
+
+    .container .ql-toolbar.ql-snow
+     {
+        display: none;
+    }
+}
+
+.login-container {
+    width: 300px;
+    margin: auto;
+    margin-top: 10rem;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-heading {
+    text-align: center;
+    margin-bottom: 20px;
+   }
+   
+.login-container input {
+    width: calc(100% - 20px); /* Updated this line */
+    padding: 10px;
+    margin-bottom: 10px; 
+    border-radius :3 px; 
+ }
+
+   .login-container form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+   }
+
+.login-register {
+    width: 100%;
+    padding: 10px;
+    background-color: #06df2e;
+    color: #fff;
+    border: none;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-register:hover {
+    background-color: #00cc1f; /* Changed the hover color to a darker green */
+}
+   
+.login-container form button:hover {
+    background-color: #0056b3;
+   }
+   
+   .login-container a {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+   }
+   
+   .login-container a:hover {
+    color: #0056b3;
+   }
+
+
+.register-container {
+    width: 300px;
+    margin: auto;
+    margin-top: 10rem;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-container input {
+   width: calc(100% - 20px); /* Updated this line */
+   padding: 10px;
+   margin-bottom: 10px; 
+   border-radius :3 px; 
+}
+
+.register-container form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-login {
+    width: 100%;
+    padding: 10px;
+    background-color: #06df2e; /* Changed the background color to green */
+    color: #fff;
+    border: none;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-login:hover {
+    background-color: #00cc1f; /* Changed the hover color to a darker green */
+}
+
+
+.register-container form button:hover {
+    background-color: #097cb6;
+}
+
+
+
+.logout-btn {
+    position: relative;
+    background-color: rgb(230, 34, 77);
+    border-radius: 5px;
+    box-shadow: rgb(121, 18, 55) 0px 4px 0px 0px;
+    padding: 15px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    box-sizing: border-box;
+    width: 154px;
+    height: 49px;
+    color: #fff;
+    border: none;
+    font-size: 20px;
+    transition: all 0.3s ease-in-out;
+    z-index: 1;
+    overflow: hidden;
+  }
+  
+  .logout-btn::before {
+    content: "";
+    background-color: rgb(248, 50, 93);
+    width: 0;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: width 700ms ease-in-out;
+    display: inline-block;
+  }
+  
+  .logout-btn:hover::before {
+    width: 100%;
+  }
