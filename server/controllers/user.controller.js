@@ -2,7 +2,6 @@ import { User } from "../models/user.models.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { apiResponse } from "../utils/apiResponse.js";
 
-
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
         const user = await User.findById(userId);
@@ -21,7 +20,6 @@ const generateAccessAndRefreshTokens = async (userId) => {
         throw new Error("Error generating tokens");
     }
 };
-
 
 const registerUser = asyncHandler( async (req, res) => {
     const {email, password} = req.body;
@@ -55,7 +53,6 @@ const registerUser = asyncHandler( async (req, res) => {
             )
         );
     }
-
 
     const user = await User.create({
         email,
@@ -116,8 +113,6 @@ const loginUser = asyncHandler( async(req, res) => {
         );
     }
 
-    
-
     const isPasswordValid = await user.isPasswordCorrect(password);
 
     if (!isPasswordValid) {
@@ -149,8 +144,6 @@ const loginUser = asyncHandler( async(req, res) => {
         secure: true,
     };
 
-
-    // console.log(`AccessToken - ${accessToken}, Refresh Token - ${refreshToken}`);
     return res
     .status(200)
     .cookie("accessToken", accessToken, options)
@@ -172,10 +165,6 @@ const logoutUser = asyncHandler(async (req, res) => {
     await User.findByIdAndUpdate(
       req.user._id,
       {
-        //   $set: {
-        //     refreshToken: undefined,
-        //   },
-  
         $unset: {
           refreshToken: 1,
         },

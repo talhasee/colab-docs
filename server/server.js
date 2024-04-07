@@ -92,11 +92,7 @@ io.on('connection', socket => {
 
         activeUsers[documentId][socket.id] = true;
 
-        // // Handle user disconnect
-        // socket.on('disconnect', () => {
-        //     delete activeUsers[documentId][socket.id];
-        //     io.to(documentId).emit('active-users', Object.keys(activeUsers[documentId]));
-        // });
+
         socket.on('disconnect', () => {
             delete activeUsers[documentId][socket.id];
             delete documentColors[documentId][socket.id]; // Remove the color mapping for this socket
@@ -113,20 +109,8 @@ io.on('connection', socket => {
                 color: removedCursor?.color,
             }); //For DOM to remove that cursor
 
-            // io.to(documentId).emit('active-users', Object.keys(activeUsers[documentId]).map(userId => ({
-            //     userId,
-            //     color: documentColors[documentId][userId] // Update the active users data
-            // })));
         });
 
-        // Emit the active users data to clients, including the color
-        // io.to(documentId).emit('active-users', Object.keys(activeUsers[documentId]).map(userId => ({
-        //     userId,
-        //     color: documentColors[documentId][userId] // Retrieve the color for this user
-        // })));
-
-        // Emit active users data to clients
-        // io.to(documentId).emit('active-users', Object.keys(activeUsers[documentId]));
 
         const document = await findOrCreateDocument(documentId);
         socket.join(documentId);
@@ -139,8 +123,7 @@ io.on('connection', socket => {
         }
 
         socket.on('cursor-position', ({ range, source }) => {
-            // Store the cursor position and color for this user and document
-            // cursorPositions[documentId][socket.id] = { range, color: cursorColors[socket.id] };
+
             if (!cursorPositions.hasOwnProperty(documentId)) {
                 cursorPositions[documentId] = {};
             }
@@ -164,12 +147,6 @@ io.on('connection', socket => {
                 color: cursorPositions[documentId][socket.id].color,
             });
         });
-
-        // // Handle cursor position updates
-        // socket.on('cursor-position', ({ range, source }) => {
-        //     // Broadcast cursor position to other clients in the same room
-        //     socket.broadcast.to(documentId).emit('cursor-update', { userId: socket.id, range });
-        // });
 
         socket.on("send-changes", delta => {
             socket.broadcast.to(documentId).emit('receive-changes', delta);
@@ -225,7 +202,6 @@ async function findOrCreateDocument(id) {
     }
     
 }
-
 
 // Start the server
 const PORT = 3001;

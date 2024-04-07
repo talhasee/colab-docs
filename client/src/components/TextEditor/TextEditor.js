@@ -65,15 +65,8 @@ function TextEditor() {
             }
         };
     
-        // // Listen for cursor updates from the server
-        // const cursorUpdateHandler = ({ userId, range }) => {
-        //     const cursors = quill.getModule('cursors');
-        //     cursors.moveCursor(userId, range);
-        // };
-    
         // Attach the event handlers
         quill.on('selection-change', selectionChangeHandler);
-        // socket.on('cursor-update', cursorUpdateHandler);
     
         // Cleanup function to remove event listeners
         return () => {
@@ -126,7 +119,7 @@ function TextEditor() {
             const cursors = quill.getModule('cursors');
             cursors.removeCursor(userId);
             // Remove the user from activeUsers based on both userId and color
-            // setActiveUsers(prevUsers => prevUsers.filter(user => user.userId !== userId || user.color !== color));
+
             // Use reduce to create a new array without the user with the specified userId and color
             setActiveUsers(prevUsers => prevUsers.reduce((acc, user) => {
                 if (user.userId !== userId || user.color !== color) {
@@ -227,8 +220,6 @@ function TextEditor() {
 
     }, []);
 
-    // console.log(`ACTiVE_USERS - ${activeUsers}`);
-
     // Function to logout the user on the frontend using Axios
     const logout = async () => {
         try {
@@ -256,7 +247,6 @@ function TextEditor() {
         }
     };
     
-    // console.log(`ACTIVE USERS - ${activeUsers}`);
     console.log('ACTIVE USERS:');
     activeUsers.forEach((user, index) => {
         console.log(`User ${index + 1} - UserID: ${user.userId}, Color: ${user.color}`);
@@ -268,14 +258,7 @@ function TextEditor() {
         {error && <div>{error}</div>}
         <button className='logout-btn' onClick={logout}>Log OUT</button>
         <div className="container" ref={wrapperRef}></div>
-        {/* <div>
-          <h3>Active Users:</h3>
-          <ul>
-            {activeUsers.map((userId, index) => (
-              <li key={index}>User ID: {userId}</li>
-            ))}
-          </ul>
-        </div> */}
+
         <div>
         <h3>Active Users:</h3>
         <ul>

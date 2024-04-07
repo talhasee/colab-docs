@@ -23,7 +23,7 @@ const Register = () => {
   };
 
   const toLogin = () => {
-    navigate('/login')
+    navigate('/login');
   };
 
   return (

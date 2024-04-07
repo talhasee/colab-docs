@@ -17,8 +17,6 @@ function App() {
     const checkLoginStatus = () => {
 
       if (accessToken && refreshToken) {
-        // console.log(`${typeof accessToken}, ${typeof refreshToken}`);
-        // console.log(`${accessToken}, ${refreshToken}`);
         setIsLoggedIn(true);
       } else {
         setIsLoggedIn(false);
