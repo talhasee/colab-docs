@@ -92,7 +92,6 @@ io.on('connection', socket => {
         //     delete activeUsers[documentId][socket.id];
         //     io.to(documentId).emit('active-users', Object.keys(activeUsers[documentId]));
         // });
-        // Your existing logic for handling disconnects...
         socket.on('disconnect', () => {
             delete activeUsers[documentId][socket.id];
             delete documentColors[documentId][socket.id]; // Remove the color mapping for this socket
@@ -105,17 +104,17 @@ io.on('connection', socket => {
                 color: removedCursor?.color,
             }); //For DOM to remove that cursor
 
-            io.to(documentId).emit('active-users', Object.keys(activeUsers[documentId]).map(userId => ({
-                userId,
-                color: documentColors[documentId][userId] // Update the active users data
-            })));
+            // io.to(documentId).emit('active-users', Object.keys(activeUsers[documentId]).map(userId => ({
+            //     userId,
+            //     color: documentColors[documentId][userId] // Update the active users data
+            // })));
         });
 
         // Emit the active users data to clients, including the color
-        io.to(documentId).emit('active-users', Object.keys(activeUsers[documentId]).map(userId => ({
-            userId,
-            color: documentColors[documentId][userId] // Retrieve the color for this user
-        })));
+        // io.to(documentId).emit('active-users', Object.keys(activeUsers[documentId]).map(userId => ({
+        //     userId,
+        //     color: documentColors[documentId][userId] // Retrieve the color for this user
+        // })));
 
         // Emit active users data to clients
         // io.to(documentId).emit('active-users', Object.keys(activeUsers[documentId]));
