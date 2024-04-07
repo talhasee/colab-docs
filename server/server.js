@@ -70,9 +70,14 @@ const activeUsers = {};
 const cursorPositions = {};
 const cursorColors = {};
 const documentColors = {};
+const userSocketMapping = {};
 
 io.on('connection', socket => {
-    socket.on('get-document', async documentId => {
+    socket.on('get-document', async ({documentId, email}) => {
+
+        if(email){
+            userSocketMapping[socket.id] = email;
+        }
 
         if (!activeUsers[documentId]) {
             activeUsers[documentId] = {};
@@ -98,7 +103,11 @@ io.on('connection', socket => {
 
             const removedCursor = cursorPositions[documentId][socket.id]; // Store the cursor position and color before deleting
 
+            const emailMapped = userSocketMapping[socket.id] ? userSocketMapping[socket.id] : undefined;
+            delete userSocketMapping[socket.id];
+
             io.to(documentId).emit('cursor-removed', { 
+                email: emailMapped,
                 userId: socket.id,
                 range: removedCursor?.range,
                 color: removedCursor?.color,
@@ -131,13 +140,28 @@ io.on('connection', socket => {
 
         socket.on('cursor-position', ({ range, source }) => {
             // Store the cursor position and color for this user and document
-            cursorPositions[documentId][socket.id] = { range, color: cursorColors[socket.id] };
+            // cursorPositions[documentId][socket.id] = { range, color: cursorColors[socket.id] };
+            if (!cursorPositions.hasOwnProperty(documentId)) {
+                cursorPositions[documentId] = {};
+            }
+        
+            // Check if cursorPositions[documentId][socket.id] exists
+            if (!cursorPositions[documentId].hasOwnProperty(socket.id)) {
+                // If it doesn't exist, store the cursor position and color for this user and document
+                cursorPositions[documentId][socket.id] = { range, color: cursorColors[socket.id] };
+            } else {
+                // If it exists, update the range but keep the existing color
+                cursorPositions[documentId][socket.id].range = range;
+            }
       
+            const emailMapped = userSocketMapping[socket.id] ? userSocketMapping[socket.id] : undefined;
+
             // Broadcast the cursor position to other clients in the same document
             socket.broadcast.to(documentId).emit('cursor-update', {
-              userId: socket.id,
-              range: cursorPositions[documentId][socket.id].range,
-              color: cursorPositions[documentId][socket.id].color,
+                email: emailMapped,
+                userId: socket.id,
+                range: cursorPositions[documentId][socket.id].range,
+                color: cursorPositions[documentId][socket.id].color,
             });
         });
 

@@ -87,7 +87,7 @@ function TextEditor() {
     useEffect(() => {
         if (!socket || !quill) return;
       
-        const cursorUpdateHandler = ({ userId, range, color }) => {
+        const cursorUpdateHandler = ({email, userId, range, color }) => {
             const cursors = quill.getModule('cursors');
             cursors.createCursor(userId, color, color); // Use the received color
             cursors.moveCursor(userId, range);
@@ -99,7 +99,7 @@ function TextEditor() {
                 const userExists = prevUsers.some(user => user.userId === userId);
                 if (!userExists) {
                     // Append the new user to activeUsers
-                    return [...prevUsers, { userId, color }];
+                    return [...prevUsers, { email, userId, color }];
                 }
                 // Return the existing array if the user already exists
                 return prevUsers;
@@ -126,7 +126,14 @@ function TextEditor() {
             const cursors = quill.getModule('cursors');
             cursors.removeCursor(userId);
             // Remove the user from activeUsers based on both userId and color
-            setActiveUsers(prevUsers => prevUsers.filter(user => user.userId !== userId || user.color !== color));
+            // setActiveUsers(prevUsers => prevUsers.filter(user => user.userId !== userId || user.color !== color));
+            // Use reduce to create a new array without the user with the specified userId and color
+            setActiveUsers(prevUsers => prevUsers.reduce((acc, user) => {
+                if (user.userId !== userId || user.color !== color) {
+                    acc.push(user);
+                }
+                return acc;
+            }, []));
         }
 
         socket.on('cursor-removed', cursorRemoveHandler);
@@ -155,12 +162,14 @@ function TextEditor() {
         if(socket == null || quill == null)
             return;
         
+        const email = localStorage.getItem('email');
+
         socket.once('load-document', document => {
             quill.setContents(document);
             quill.enable();
         });
 
-        socket.emit('get-document', documentId);
+        socket.emit('get-document', {documentId, email});
 
     }, [socket, quill, documentId])
 
@@ -231,7 +240,8 @@ function TextEditor() {
                 {
                     headers: { Authorization: `Bearer ${accessToken}` }
                 },
-                { withCredentials: true });
+                { withCredentials: true }
+            );
             if (response.status === 200) {
                 // Clear user data in the frontend
                 console.log('User logged out successfully');
@@ -277,7 +287,7 @@ function TextEditor() {
                 height: '20px', // Adjust the height as needed
                 marginRight: '10px' // Add some space between the bar and the user ID
                 }}></div>
-                User ID: {user.userId}, Color: {user.color}
+                Email: {user.email}, User ID: {user.userId}, Color: {user.color}
             </li>
             ))}
         </ul>

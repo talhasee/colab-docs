@@ -17,6 +17,7 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    
     try {
       const response = await axios.post('http://localhost:3001/api/user/login', { email, password });
       const data = response.data.data;
@@ -31,6 +32,9 @@ const Login = () => {
 
       Cookies.set('accessToken', accessToken);
       Cookies.set('refreshToken', refreshToken);
+
+      localStorage.setItem('email', data?.user?.email);
+
       navigate(`/documents/${uuidV4()}`);
     } catch (error) {
       console.error('Login error:', error);
