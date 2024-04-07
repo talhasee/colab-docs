@@ -21,7 +21,7 @@ This project is a web-based collaborative text editor that enables multiple user
 - The application displays indicators showing which users are currently editing the document.
 - Users can see who else is active in the collaboration session.
 
-### User Authentication (Optional)
+### User Authentication
 - Secure user authentication system to control document access and collaboration.
 - Only authenticated users can access and edit the document.
 
