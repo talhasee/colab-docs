@@ -7,6 +7,8 @@ import express from "express";
 import cookieParser from 'cookie-parser';
 import cors from "cors";
 
+const DB_NAME = "documents"
+
 dotenv.config({
     path: './.env'
 });
@@ -42,7 +44,7 @@ const defaultValue = "";
 const connectDB = async () => {
     try {
         console.log(`Connecting to MongoDB`);
-        const connectionInstance = await mongoose.connect("mongodb://localhost:27017/canvasDB");
+        const connectionInstance = await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`);
         console.log(`\nMongoDB connected to ${connectionInstance.connection.host}`);
     } catch (error) {
         console.log("MONGODB Connection failed", error);
@@ -206,5 +208,5 @@ async function findOrCreateDocument(id) {
 // Start the server
 const PORT = 3001;
 httpServer.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${process.env.PORT || PORT}`);
 });
