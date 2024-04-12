@@ -44,7 +44,7 @@ const defaultValue = "";
 const connectDB = async () => {
     try {
         console.log(`Connecting to MongoDB`);
-        const connectionInstance = await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`);
+        const connectionInstance = await mongoose.connect("mongodb://localhost:27017/canvasDB");
         console.log(`\nMongoDB connected to ${connectionInstance.connection.host}`);
     } catch (error) {
         console.log("MONGODB Connection failed", error);
